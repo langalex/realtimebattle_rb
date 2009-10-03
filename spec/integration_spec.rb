@@ -5,7 +5,7 @@ describe 'Real Time Battle' do
     before(:each) do
       @bot = Bot.new
       @arena = Arena.new [@bot], 10, 10
-      @info = @arena.info_for(@bot)
+      @info = @arena.position_for(@bot)
     end
   
     it "should move around" do
@@ -37,8 +37,8 @@ describe 'Real Time Battle' do
       end
       
       it "should have both objects in the same position and direction" do
-        one = @arena.info_for @arena.objects.first
-        two = @arena.info_for @arena.objects.last
+        one = @arena.position_for @arena.objects.first
+        two = @arena.position_for @arena.objects.last
         
         one.x.should == two.x
         one.y.should == two.y
@@ -51,7 +51,7 @@ describe 'Real Time Battle' do
     before :each do
       @bullet = Bullet.new
       @arena  = Arena.new [@bullet], 10, 10
-      @info   = @arena.info_for(@bullet)
+      @info   = @arena.position_for(@bullet)
     end
     
     it "should move around" do
@@ -69,7 +69,7 @@ describe 'Real Time Battle' do
       @arena.step
       @arena.step
       @arena.step
-      @arena.info_for(@bullet).should be_nil
+      @arena.position_for(@bullet).should be_nil
     end
   end
 end
