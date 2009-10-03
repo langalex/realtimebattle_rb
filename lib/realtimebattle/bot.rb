@@ -1,7 +1,17 @@
 class Bot
+  attr_reader :health
   
   def initialize
     @step = 0
+    @health = 100
+  end
+  
+  def hit(damage)
+    @health -= damage
+  end
+  
+  def dead?
+    @health <= 0
   end
   
   # possible return value:

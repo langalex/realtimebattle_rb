@@ -6,4 +6,36 @@ describe Bot do
       Bot.new.speed.should == 1
     end
   end
+  
+  describe '#health' do
+    it "should default to 100" do
+      Bot.new.health.should == 100
+    end
+  end
+  
+  describe '#hit with a bullet' do
+    it "should decrease health by given damage" do
+      bot = Bot.new
+      bot.hit(25)
+      bot.health.should == 75
+    end
+  end
+  
+  describe "#dead?" do
+    it "should return true if health is less than 0" do
+      bot = Bot.new
+      bot.hit(101)
+      bot.should be_dead
+    end
+    
+    it "should return true if health is zero" do
+      bot = Bot.new
+      bot.hit(100)
+      bot.should be_dead
+    end
+    
+    it "should return false if health is greater than 0" do
+      Bot.new.should_not be_dead
+    end
+  end
 end
