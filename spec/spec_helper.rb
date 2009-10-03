@@ -1,1 +1,1 @@
-require File.dirname(__FILE__) + '/../realtimebattle'
+require File.dirname(__FILE__) + '/../lib/realtimebattle'
