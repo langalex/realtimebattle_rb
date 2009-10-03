@@ -5,14 +5,21 @@ class Bot
   end
   
   # possible return value:
-  # [:move]
+  # :move
   # [:rotate, degrees] # degrees must be 0..360
+  # :shoot
   def step(contact_type, contact_distance)
     @step += 1
     if @step % 5 == 0
       [:rotate, 90]
+    elsif @step % 3 == 0
+      :shoot
     else
-      [:move]
+      :move
     end
+  end
+  
+  def speed
+    1
   end
 end

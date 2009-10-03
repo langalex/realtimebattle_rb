@@ -1,10 +1,9 @@
-class BotInfo
+class ObjectInfo
   attr_accessor :position, :direction
   
-  
-  def initialize
-    self.position = [1,1]
-    self.direction = 0
+  def initialize(x = 1, y = 1, direction = 0)
+    self.position = [x, y]
+    self.direction = direction
     @helper = GeometryHelper.new
   end
   
@@ -23,7 +22,6 @@ class BotInfo
   end
   
   def move(distance)
-    
     self.position = @helper.advance x, y, distance, direction
   end
 end

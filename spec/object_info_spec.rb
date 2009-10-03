@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe BotInfo, 'rotate' do
+describe ObjectInfo, 'rotate' do
   before(:each) do
-    @info = BotInfo.new
+    @info = ObjectInfo.new
     @info.direction = 0
   end
   
@@ -24,14 +24,12 @@ describe BotInfo, 'rotate' do
   end
 end
 
-describe BotInfo, 'move' do
-  
+describe ObjectInfo, 'move' do
   before(:each) do
-    @info = BotInfo.new
+    @info = ObjectInfo.new
     @info.direction = 0
     @info.position = [10,10]
   end
-  
   
   it "should move the bot to the right" do
     @info.move 1
@@ -55,5 +53,4 @@ describe BotInfo, 'move' do
     @info.move 1
     @info.position.should == [10,11]
   end
-  
 end

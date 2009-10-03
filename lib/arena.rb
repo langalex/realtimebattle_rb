@@ -1,22 +1,28 @@
 class Arena
-  def initialize(bots, width, height)
-    @bots = bots.inject({}) do |hash, bot|
-      hash[bot] = BotInfo.new
+  def initialize(objects, width, height)
+    @objects = objects.inject({}) do |hash, object|
+      hash[object] = ObjectInfo.new
       hash
     end
-    @helper = GeometryHelper.new
-    @wall_elements = initialize_wall(width, height)
+    
+    @width, @height = width, height
+    @helper         = GeometryHelper.new
+    @wall_elements  = initialize_wall(width, height)
   end
   
   def step
-    @bots.keys.each do |bot|
-      action = bot.step contact_type(bot), contact_distance(bot)
-      perform_action bot, action
+    @objects.keys.each do |object|
+      action = object.step contact_type(object), contact_distance(object)
+      perform_action object, action
     end
   end
   
-  def info_for(bot)
-    @bots[bot]
+  def info_for(object)
+    @objects[object]
+  end
+  
+  def objects
+    @objects.keys
   end
   
   private
@@ -32,36 +38,49 @@ class Arena
     elements
   end
   
-  def contact_distance(bot)
+  def contact_distance(object)
     step = 1
     begin
-      new_x, new_y = @helper.advance info_for(bot).x, info_for(bot).y, step, info_for(bot).direction
+      info = info_for(object)
+      new_x, new_y = @helper.advance(
+        info.x, info.y, step, info.direction
+      )
       step += 1
+      return 0 if out_of_bounds?(new_x, new_y)
     end while !wall?(new_x, new_y)
-    distance_between(new_x - info_for(bot).x, new_y - info_for(bot).y)
+    distance_between(new_x - info_for(object).x, new_y - info_for(object).y)
   end
   
   def distance_between(delta_x, delta_y)
     Math.sqrt((delta_x * delta_x) + (delta_y * delta_y))
   end
   
-  def contact_type(bot)
+  def contact_type(object)
     :wall
   end
   
   def wall?(x, y)
-    @wall_elements.find{|wall| wall == [x, y]}
+    @wall_elements.find { |wall| wall == [x, y] }
   end
   
-  def perform_action(bot, action)
-    bot_info = @bots[bot]
-    case action.first
+  def out_of_bounds?(x, y)
+    x < 0 || y < 0 || x > @width || y > @height
+  end
+  
+  def perform_action(object, action)
+    info = @objects[object]
+    
+    case Array(action).first
     when :rotate
-      bot_info.rotate action[1]
+      info.rotate action[1]
     when :move
-      bot_info.move 1 unless wall?(*@helper.advance(bot_info.x, bot_info.y, 1, bot_info.direction))
+      new_x, new_y = @helper.advance(info.x, info.y, object.speed, info.direction)
+      info.move object.speed unless wall?(new_x, new_y)
     when :shoot
+      bullet_info = ObjectInfo.new(info.x, info.y, info.direction)
+      @objects[Bullet.new] = bullet_info
+    when :impact
+      @objects.delete object
     end
   end
-  
 end
