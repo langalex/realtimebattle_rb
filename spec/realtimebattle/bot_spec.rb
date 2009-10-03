@@ -38,4 +38,10 @@ describe Bot do
       Bot.new.should_not be_dead
     end
   end
+  
+  describe "#stats" do
+    it "should return a hash including the bots health" do
+      Bot.new.stats.should include(:health => 100)
+    end
+  end
 end

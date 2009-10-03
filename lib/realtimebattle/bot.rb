@@ -11,7 +11,7 @@ class Bot
   end
   
   def dead?
-    @health <= 0
+    health <= 0
   end
   
   # possible return value:
@@ -31,5 +31,9 @@ class Bot
   
   def speed
     1
+  end
+  
+  def stats
+    {:health => health}
   end
 end
