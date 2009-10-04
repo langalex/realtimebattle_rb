@@ -1,10 +1,10 @@
 class Arena
-  def initialize(objects, width, height)
+  def initialize(bots, width, height)
     @objects = {}
     @position_index = {}
     
-    objects.each do |object|
-      add_object object
+    bots.each do |object|
+      add_object object, ObjectInfo.new((width/2).to_i, (height/2).to_i)
     end
 
     initialize_wall(width, height).each do |wall|

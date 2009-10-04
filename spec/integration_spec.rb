@@ -4,8 +4,10 @@ describe 'Real Time Battle' do
   describe 'bot' do
     before(:each) do
       @bot = TestBot.new
-      @arena = Arena.new [@bot], 10, 10
-      @info = @arena.info_for(@bot)
+      @info = ObjectInfo.new 1, 1, 0
+      
+      @arena = Arena.new [], 10, 10
+      @arena.add_object @bot, @info
     end
   
     it "should move around" do
@@ -75,9 +77,10 @@ describe 'Real Time Battle' do
     before(:each) do
       @bullet = Bullet.new
       @bot = TestBot.new
-      @arena  = Arena.new [@bot], 10, 10
+      @info = ObjectInfo.new 1, 1, 0
+      @arena = Arena.new [], 10, 10
+      @arena.add_object @bot, @info
       @arena.add_object @bullet, BulletInfo.new(3, 1, -180)
-      @info = @arena.info_for(@bot)
     end
     
     it "should damage the bot when hitting it" do
