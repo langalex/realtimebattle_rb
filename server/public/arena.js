@@ -67,5 +67,5 @@ $(function(){
   }
   
   Polling();
-  pollingTimer = setInterval(Polling, 3000);
+  pollingTimer = setInterval(Polling, 200);
 });

@@ -2,13 +2,33 @@
 require 'rubygems'
 require 'sinatra'
 require 'json'
+
 $LOAD_PATH.unshift 'lib'
 require 'realtimebattle'
 
 mime :json, "application/json"
 
-CACHE = {}
-CACHE['arena'] = nil
+arena = Arena.new [Bot.new], 20, 20
+
+Thread.new do
+  while(true)
+    arena.step
+    $arena_json = {
+      :walls => [],
+      :objects => arena.objects.map { |object|
+        object_info = arena.info_for object
+        {
+          :x => object_info.x,
+          :y => object_info.y,
+          :direction => object_info.direction,
+          :type => object.class.name,
+          :stats => object.respond_to?(:stats) ? object.stats : {}
+        }
+      }
+    }.to_json
+    sleep 0.1
+  end
+end
 
 get '/' do
   redirect 'index.html'
@@ -16,24 +36,5 @@ end
 
 get '/arena' do
   content_type :json
-  
-  CACHE['arena'] ||= Arena.new [Bot.new], 640, 480 # FIXME: keep battle field scale in the javascript part of the application
-  arena = CACHE['arena']
-  
-  state = {
-    :walls => [],
-    :objects => arena.objects.map { |object|
-      position_info = arena.position_for object
-      {
-        :x => position_info.x,
-        :y => position_info.y,
-        :direction => position_info.direction,
-        :type => object.class.name,
-        :stats => object.respond_to?(:stats) ? object.stats : {}
-      }
-    }
-  }.to_json
-  arena.step
-  CACHE['arena'] = arena
-  state
+  $arena_json
 end

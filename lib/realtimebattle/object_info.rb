@@ -1,10 +1,27 @@
-class PositionInfo  
-  attr_accessor :position, :direction
+class ObjectInfo  
+  attr_accessor :position, :direction, :health
   
   def initialize(x = 1, y = 1, direction = 0)
     self.position = [x, y]
     self.direction = direction
+    self.health = 100
     @helper = GeometryHelper.new
+  end
+  
+  def hit(damage)
+    @health -= damage
+  end
+  
+  def damage
+    0
+  end
+  
+  def dead?
+    health <= 0
+  end
+  
+  def speed
+    1
   end
   
   def x
@@ -21,7 +38,11 @@ class PositionInfo
     self.direction += 360 if direction < -180
   end
   
-  def move(distance)
-    self.position = @helper.advance x, y, distance, direction
+  def move
+    self.position = @helper.advance x, y, speed, direction
+  end
+  
+  def stats
+    {:health => health}
   end
 end

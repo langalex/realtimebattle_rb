@@ -1,11 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe 'Real Time Battle' do
-  context 'bot' do
+  describe 'bot' do
     before(:each) do
       @bot = Bot.new
       @arena = Arena.new [@bot], 10, 10
-      @info = @arena.position_for(@bot)
+      @info = @arena.info_for(@bot)
     end
   
     it "should move around" do
@@ -32,13 +32,9 @@ describe 'Real Time Battle' do
         @arena.step
       end
       
-      it "should have two objects in the arena" do
-        @arena.objects.length.should == 2
-      end
-      
       it "should have both objects in the same position and direction" do
-        one = @arena.position_for @arena.objects.first
-        two = @arena.position_for @arena.objects.last
+        one = @arena.info_for @bot
+        two = @arena.info_for @arena.objects.find{|o| o.class == Bullet}
         
         one.x.should == two.x
         one.y.should == two.y
@@ -47,11 +43,12 @@ describe 'Real Time Battle' do
     end
   end
   
-  context 'bullet' do
+  describe 'bullet' do
     before :each do
       @bullet = Bullet.new
-      @arena  = Arena.new [@bullet], 10, 10
-      @info   = @arena.position_for(@bullet)
+      @arena  = Arena.new [], 10, 10
+      @arena.add_object @bullet, BulletInfo.new
+      @info   = @arena.info_for(@bullet)
     end
     
     it "should move around" do
@@ -69,7 +66,22 @@ describe 'Real Time Battle' do
       @arena.step
       @arena.step
       @arena.step
-      @arena.position_for(@bullet).should be_nil
+      @arena.info_for(@bullet).should be_nil
+    end
+  end
+  
+  describe "bullet and bot" do
+    before(:each) do
+      @bullet = Bullet.new
+      @bot = Bot.new
+      @arena  = Arena.new [@bot], 10, 10
+      @arena.add_object @bullet, BulletInfo.new(3, 1, -180)
+      @info = @arena.info_for(@bot)
+    end
+    
+    it "should damage the bot when hitting it" do
+      @arena.step
+      @info.health.should == 75
     end
   end
 end
