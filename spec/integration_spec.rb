@@ -32,13 +32,13 @@ describe 'Real Time Battle' do
         @arena.step
       end
       
-      it "should fire the bullet from the bot's position in the same direction the bot is looking" do
-        one = @arena.info_for @bot
-        two = @arena.info_for @arena.objects.find{|o| o.class == Bullet}
+      it "should fire the bullet from in front of the bot's position in the same direction the bot is looking" do
+        bot = @arena.info_for @bot
+        bullet = @arena.info_for @arena.objects.find{|o| o.class == Bullet}
         
-        one.x.should == two.x
-        one.y.should == two.y
-        one.direction.should == two.direction
+        bullet.x.should == bot.x + 1
+        bullet.y.should == bot.y
+        bullet.direction.should == bot.direction
       end
     end
   end

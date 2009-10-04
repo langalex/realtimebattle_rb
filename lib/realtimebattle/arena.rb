@@ -16,14 +16,11 @@ class Arena
   end
   
   def step
-    objects.each do |object|
-      contact, distance = find_contact object
-      action = object.step contact_type(contact), distance
-      perform_action object, action
-      if info_for(object).dead?
-        remove_object(object)
-        next 
-      end
+    objects.select{|o| info_for(o).speed > 1}.each do |object|
+      step_object object
+    end
+    objects.select{|o| info_for(o).speed <= 1}.each do |object|
+      step_object object
     end
   end
   
@@ -42,6 +39,16 @@ class Arena
   end
   
   private
+  
+  def step_object(object)
+    contact, distance = find_contact object
+    action = object.step contact_type(contact), distance
+    perform_action object, action
+    if info_for(object).dead?
+      remove_object(object)
+    end
+  end
+  
 
   def remove_object(object)
     info = info_for(object)
@@ -119,18 +126,24 @@ class Arena
     when :move
       info.speed.times do
         new_x, new_y = @helper.advance(info.x, info.y, 1, info.direction)
-        unless object?(new_x, new_y)
-          move_object object
-        else
-          opponent_info = info_for(object_at(new_x, new_y))
-          info.hit(opponent_info.damage)
-          opponent_info.hit(info.damage)
+        if (opponent = object_at(new_x, new_y))
+          collission object, opponent
           return
+        else
+          move_object object
         end
       end
     when :shoot
-      bullet_info = BulletInfo.new(info.x, info.y, info.direction)
+      bullet_x, bullet_y = @helper.advance info.x, info.y, 1, info.direction
+      bullet_info = BulletInfo.new(bullet_x, bullet_y, info.direction)
       add_object Bullet.new, bullet_info
     end
+  end
+  
+  def collission(object, opponent)
+    info = info_for object
+    opponent_info = info_for opponent
+    info.hit opponent_info.damage
+    opponent_info.hit info.damage
   end
 end
