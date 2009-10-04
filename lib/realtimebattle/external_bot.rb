@@ -3,7 +3,7 @@
 # the external process must wait for events via STDIN and respond via STDOUT
 # the input is passed as pipe separated values terminated by \n, the out put must be a 
 # string terminated by a \n as well
-# for possible inputs/outputs see Bot#step
+# for possible inputs/outputs see TestBot#step
 class ExternalBot
   
   def initialize(shell_command)

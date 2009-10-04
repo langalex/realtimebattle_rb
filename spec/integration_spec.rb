@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe 'Real Time Battle' do
   describe 'bot' do
     before(:each) do
-      @bot = Bot.new
+      @bot = TestBot.new
       @arena = Arena.new [@bot], 10, 10
       @info = @arena.info_for(@bot)
     end
@@ -74,7 +74,7 @@ describe 'Real Time Battle' do
   describe "bullet and bot" do
     before(:each) do
       @bullet = Bullet.new
-      @bot = Bot.new
+      @bot = TestBot.new
       @arena  = Arena.new [@bot], 10, 10
       @arena.add_object @bullet, BulletInfo.new(3, 1, -180)
       @info = @arena.info_for(@bot)

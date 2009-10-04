@@ -6,7 +6,7 @@ describe Arena do
     describe "sensors" do
       
       before(:each) do
-        @bot = Bot.new
+        @bot = TestBot.new
         @arena = Arena.new [@bot], 20, 20
         @bot_info = @arena.info_for(@bot)
       end
@@ -44,7 +44,7 @@ describe Arena do
     describe "movement" do
       
       before(:each) do
-        @bot = Bot.new
+        @bot = TestBot.new
         @arena = Arena.new [@bot], 20, 20
         @bot_info = @arena.info_for(@bot)
       end

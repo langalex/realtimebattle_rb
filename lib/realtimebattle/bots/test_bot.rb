@@ -1,4 +1,4 @@
-class Bot
+class TestBot
   
   def initialize
     @step = 0

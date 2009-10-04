@@ -17,7 +17,7 @@ $(function(){
     });
     
     var bots = $.grep(data['objects'], function(obj){
-      return obj.type == 'Bot';
+      return obj.type[-4,3] == 'Bot';
     });
     
     // bots

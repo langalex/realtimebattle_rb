@@ -8,7 +8,7 @@ require 'realtimebattle'
 
 mime :json, "application/json"
 
-arena = Arena.new [Bot.new], 200, 100
+arena = Arena.new [TestBot.new], 200, 100
 
 Thread.new do
   while(true)
