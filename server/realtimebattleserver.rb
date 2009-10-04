@@ -8,7 +8,7 @@ require 'realtimebattle'
 
 mime :json, "application/json"
 
-arena = Arena.new [Bot.new], 20, 20
+arena = Arena.new [Bot.new], 200, 100
 
 Thread.new do
   while(true)
@@ -26,7 +26,6 @@ Thread.new do
         }
       }
     }.to_json
-    sleep 0.1
   end
 end
 

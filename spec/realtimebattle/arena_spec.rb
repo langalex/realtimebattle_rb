@@ -86,17 +86,14 @@ describe Arena do
       
     end
     
-    
     it "should tell two object moving into each other about the collision" do
       object1 = stub('object1', :step => :move, :direction => 0, :speed => 1)
       object2 = stub('object2', :step => nil)
-      arena = Arena.new [object1, object2], 20, 20
-      info1 = arena.info_for(object1)
-      info1.position = [1,2]
-      info1.stub!(:damage => 10)
-      info2 = arena.info_for(object2)
-      info2.stub!(:damage => 20)
-      info2.position = [2,2]
+      arena = Arena.new [], 20, 20
+      info1 = stub 'info1', :x => 1, :y => 2, :damage => 10, :direction => 0, :speed => 1, :dead? => false
+      arena.add_object object1, info1
+      info2 = stub 'info2', :x => 2, :y => 2, :damage => 20, :direction => 0, :speed => 1, :dead? => false
+      arena.add_object object2, info2
       
       info1.should_receive(:hit).with(20)
       info2.should_receive(:hit).with(10)

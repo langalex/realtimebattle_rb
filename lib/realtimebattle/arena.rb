@@ -1,12 +1,14 @@
 class Arena
   def initialize(objects, width, height)
     @objects = {}
+    @position_index = {}
+    
     objects.each do |object|
       add_object object
     end
 
     initialize_wall(width, height).each do |wall|
-      @objects[wall] = WallInfo.new(wall.x, wall.y)
+      add_object wall, WallInfo.new(wall.x, wall.y)
     end
     
     @width, @height = width, height
@@ -34,17 +36,28 @@ class Arena
   end
   
   def add_object(object, info = nil)
-    @objects[object] = info || ObjectInfo.new
+    actual_info = info || ObjectInfo.new
+    @position_index[[actual_info.x, actual_info.y]] = object
+    @objects[object] = actual_info
   end
   
   private
 
   def remove_object(object)
+    info = info_for(object)
+    @position_index.delete([info.x, info.y])
     @objects.delete(object)
   end
   
+  def move_object(object)
+    info = info_for(object)
+    @position_index.delete([info.x, info.y])
+    info.move
+    @position_index[[info.x, info.y]] = object
+  end
+  
   def collides_with(object)
-    objects.find{|opponent| opponent != object && info_for(object).position == info_for(opponent).position}
+    objects.find{|opponent| opponent != object && info_for(object).position == info_for(opponent).position} # XXX slow?
   end
   
   def initialize_wall(width, height)
@@ -91,7 +104,7 @@ class Arena
   end
   
   def object_at(x, y)
-    objects.find { |object| [info_for(object).x, info_for(object).y]  == [x, y] }
+    @position_index[[x, y]]
   end
   
   def out_of_bounds?(x, y)
@@ -107,7 +120,7 @@ class Arena
       info.speed.times do
         new_x, new_y = @helper.advance(info.x, info.y, 1, info.direction)
         unless object?(new_x, new_y)
-          info.move
+          move_object object
         else
           opponent_info = info_for(object_at(new_x, new_y))
           info.hit(opponent_info.damage)
