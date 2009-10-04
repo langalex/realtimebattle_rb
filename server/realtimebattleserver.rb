@@ -1,19 +1,17 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require 'sinatra'
-require 'erb'
 require 'json'
-require 'memcache'
 $LOAD_PATH.unshift 'lib'
 require 'realtimebattle'
 
 mime :json, "application/json"
 
-CACHE = MemCache.new 'localhost:11211', :namespace => 'realtimebattle'
+CACHE = {}
 CACHE['arena'] = nil
 
 get '/' do
-  erb :index
+  redirect 'index.html'
 end
 
 get '/arena' do

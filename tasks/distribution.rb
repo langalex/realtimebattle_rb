@@ -20,4 +20,6 @@ Jeweler::Tasks.new do |gem|
     'VERSION.yml'
   ]
   gem.test_files = FileList['spec/**/*.rb']
+  gem.add_dependency 'sinatra'
+  gem.add_dependency 'json'
 end
