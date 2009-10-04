@@ -8,7 +8,7 @@ require 'realtimebattle'
 
 mime :json, "application/json"
 
-arena = Arena.new [ExternalBot.new('./bots/stupid_bot')], 200, 100
+arena = Arena.new [ExternalBot.new('./bots/stupid_bot'), ExternalBot.new('./bots/stupid_bot')], 200, 100
 
 Thread.new do
   while(true)
@@ -22,7 +22,7 @@ Thread.new do
           :y => object_info.y,
           :direction => object_info.direction,
           :type => object.class.name,
-          :stats => object.respond_to?(:stats) ? object.stats : {}
+          :stats => object_info.stats
         }
       }
     }.to_json

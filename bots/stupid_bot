@@ -8,7 +8,7 @@ while(input = STDIN.gets)
   contact_type, contact_distance = input.strip.split('|')
   
   if step % 15 == 0
-    puts "rotate|10"
+    puts "rotate|#{rand(180).to_i - 90}"
   elsif step % 37 == 0
     puts "shoot"
   else
