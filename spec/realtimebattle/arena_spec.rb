@@ -102,4 +102,16 @@ describe Arena do
     end
     
   end
+  
+  describe "shooting" do
+    it "should not place a new bullet into an object" do
+      arena = Arena.new [], 10, 10
+      bot = TestBot.new
+      bot.stub!(:step => :shoot)
+      info = ObjectInfo.new 8, 1
+      arena.add_object bot, info
+      arena.step
+      arena.objects.select{|object| object.is_a?(Bullet)}.size.should == 0
+    end
+  end
 end

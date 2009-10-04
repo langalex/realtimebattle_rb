@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+step = 0
+
+while(input = STDIN.gets)
+  next if input.nil?
+  step += 1
+  contact_type, contact_distance = input.strip.split('|')
+  
+  if step % 15 == 0
+    puts "rotate|10"
+  elsif step % 37 == 0
+    puts "shoot"
+  else
+    puts "move"
+  end
+  STDOUT.flush
+end

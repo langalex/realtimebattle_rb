@@ -64,7 +64,7 @@ class Arena
   end
   
   def collides_with(object)
-    objects.find{|opponent| opponent != object && info_for(object).position == info_for(opponent).position} # XXX slow?
+    objects.find{|opponent| opponent != object && info_for(object).position == info_for(opponent).position}
   end
   
   def initialize_wall(width, height)
@@ -136,7 +136,7 @@ class Arena
     when :shoot
       bullet_x, bullet_y = @helper.advance info.x, info.y, 1, info.direction
       bullet_info = BulletInfo.new(bullet_x, bullet_y, info.direction)
-      add_object Bullet.new, bullet_info
+      add_object Bullet.new, bullet_info unless object?(bullet_x, bullet_y)
     end
   end
   

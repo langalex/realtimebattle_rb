@@ -12,7 +12,7 @@ Module.module_eval do
   
   
   def const_missing_with_autoloading(const)
-    file = Dir.glob(File.dirname(__FILE__) + "/realtimebattle/**/#{const.to_s.underscore}.rb").first
+    file = File.dirname(__FILE__) + "/realtimebattle/#{const.to_s.underscore}.rb"
     if File.exist?(file)
       require file
       const_get const

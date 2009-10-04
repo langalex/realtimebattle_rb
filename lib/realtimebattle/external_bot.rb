@@ -21,7 +21,20 @@ class ExternalBot
   private
   
   def process_result(result)
-    result.strip.to_sym
+    res = result.strip.split('|').map{|res| convert_to_type(res)}
+    if res.size == 1
+      res.first
+    else
+      res
+    end
+  end
+  
+  def convert_to_type(result)
+    if result.match(/^-?\d+$/)
+      result.to_i
+    else
+      result.to_sym
+    end
   end
   
   def send_command(command)
