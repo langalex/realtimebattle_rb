@@ -104,13 +104,16 @@ class Arena
     when :rotate
       info.rotate action[1]
     when :move
-      new_x, new_y = @helper.advance(info.x, info.y, info.speed, info.direction)
-      unless object?(new_x, new_y)
-        info.move
-      else
-        opponent_info = info_for(object_at(new_x, new_y))
-        info.hit(opponent_info.damage)
-        opponent_info.hit(info.damage)
+      info.speed.times do
+        new_x, new_y = @helper.advance(info.x, info.y, 1, info.direction)
+        unless object?(new_x, new_y)
+          info.move
+        else
+          opponent_info = info_for(object_at(new_x, new_y))
+          info.hit(opponent_info.damage)
+          opponent_info.hit(info.damage)
+          return
+        end
       end
     when :shoot
       bullet_info = BulletInfo.new(info.x, info.y, info.direction)

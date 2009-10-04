@@ -39,7 +39,7 @@ class ObjectInfo
   end
   
   def move
-    self.position = @helper.advance x, y, speed, direction
+    self.position = @helper.advance x, y, 1, direction
   end
   
   def stats

@@ -32,7 +32,7 @@ describe 'Real Time Battle' do
         @arena.step
       end
       
-      it "should have both objects in the same position and direction" do
+      it "should fire the bullet from the bot's position in the same direction the bot is looking" do
         one = @arena.info_for @bot
         two = @arena.info_for @arena.objects.find{|o| o.class == Bullet}
         
@@ -46,7 +46,7 @@ describe 'Real Time Battle' do
   describe 'bullet' do
     before :each do
       @bullet = Bullet.new
-      @arena  = Arena.new [], 10, 10
+      @arena  = Arena.new [], 9, 9
       @arena.add_object @bullet, BulletInfo.new
       @info   = @arena.info_for(@bullet)
     end
@@ -68,6 +68,7 @@ describe 'Real Time Battle' do
       @arena.step
       @arena.info_for(@bullet).should be_nil
     end
+    
   end
   
   describe "bullet and bot" do
