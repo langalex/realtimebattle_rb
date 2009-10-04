@@ -18,7 +18,7 @@ class Bot
   # :move
   # [:rotate, degrees] # degrees must be 0..360
   # :shoot
-  def step(obstacle_type, obstacle_distance)
+  def step(contact_type, contact_distance)
     @step += 1
     if @step % 5 == 0
       [:rotate, 90]
