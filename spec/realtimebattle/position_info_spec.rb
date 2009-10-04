@@ -1,8 +1,8 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec/spec_helper'
 
-describe ObjectInfo, 'rotate' do
+describe PositionInfo, 'rotate' do
   before(:each) do
-    @info = ObjectInfo.new
+    @info = PositionInfo.new
     @info.direction = 0
   end
   
@@ -24,9 +24,9 @@ describe ObjectInfo, 'rotate' do
   end
 end
 
-describe ObjectInfo, 'move' do
+describe PositionInfo, 'move' do
   before(:each) do
-    @info = ObjectInfo.new
+    @info = PositionInfo.new
     @info.direction = 0
     @info.position = [10,10]
   end

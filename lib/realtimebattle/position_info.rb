@@ -1,4 +1,4 @@
-class ObjectInfo
+class PositionInfo
   attr_accessor :position, :direction
   
   def initialize(x = 1, y = 1, direction = 0)
