@@ -1,0 +1,12 @@
+body {
+  font-family: "courier new";
+  background:#202020;
+}
+
+#arena {
+  position: absolute;
+  width: 640px; height:480px;
+  top:50%; left:50%; margin-top:-240px; margin-left:-320px;
+  border: 1px dashed yellow;
+  background:#303030;
+}

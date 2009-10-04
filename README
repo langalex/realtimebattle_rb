@@ -1,0 +1,33 @@
+A couple of words about the server:
+  
+  The server is a sinatra app that servers an index.html which contains the polling javascript and the drawing interface.
+  You can start the server from the root level of the project directory, like this:
+  
+    $ ruby server/realtimebattleserver.rb
+    
+  The state of the battlefield across requests is being held by memcache.
+  The singleton resource /arena returns the state of the battlefield represented as json.
+  If you'd like to draw walls, you can simply do that by returning an arrays of polyline coords.
+  
+  Example json doc:
+
+    {
+      walls: [
+        [
+          [0, 15],
+          [15, 15]
+        ],
+        [
+          [0, 30],
+          [30, 30],
+          [30, 30],
+          [30, 0]
+        ]
+      ],
+    
+      objects: [
+        {type: 'Bot', x: 10, y: 10, angle: 90, stats: {health: 100}},
+        {type: 'Bot', x: 20, y: 20, angle: 0, stats: {health: 75}},
+        {type: 'Bullet', x: 20, y: 20, angle: 180},
+      ]
+    }
